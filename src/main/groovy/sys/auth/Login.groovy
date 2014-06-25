@@ -1,4 +1,4 @@
-package sys.org
+package sys.auth
 
 import org.nutz.dao.entity.annotation.ColDefine;
 import org.nutz.dao.entity.annotation.Column;
@@ -6,7 +6,7 @@ import org.nutz.dao.entity.annotation.Table;
 
 import sys.TermedObject;
 
-@Table("sys_logins")
+@Table("auth_logins")
 class Login
 extends TermedObject {
 	@Column("login_name") @ColDefine(width=200, notNull=true)

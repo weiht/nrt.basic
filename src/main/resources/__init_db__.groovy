@@ -1,6 +1,11 @@
 import org.nutz.dao.Dao;
 
 import sys.auth.Login;
+import sys.authz.Module;
+import sys.authz.ModuleOperation;
+import sys.authz.Role;
+import sys.authz.RolePrivilege;
+import sys.authz.RoleMembership;
 import sys.org.Organization;
 import sys.org.OrganizationMembership;
 import sys.org.OrganizationalUnit;
@@ -13,6 +18,11 @@ Dao dao = applicationContext.getBean('dao');
 
 def classes = [
 	Login.class,
+	Module.class,
+	ModuleOperation.class,
+	Role.class,
+	RolePrivilege.class,
+	RoleMembership.class,
 	Organization.class,
 	OrganizationalUnit.class,
 	People.class,

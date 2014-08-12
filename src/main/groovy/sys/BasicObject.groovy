@@ -15,7 +15,7 @@ implements ObjectBasics, Touchable {
 	String descriptions;
 	@Column("creator_id") @ColDefine(notNull=true, width=36)
 	String creatorId;
-	@Column("create_time") @ColDefine(notNull=true, update=false)
+	@Column("create_time") @ColDefine(type=ColType.DATETIME, notNull=true, update=false)
 	Date createTime;
 	@Column("updater_id") @ColDefine(width=36)
 	String updaterId;

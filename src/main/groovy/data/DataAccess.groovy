@@ -1,10 +1,10 @@
 package data;
 
-import org.nutz.dao.Dao;
+import org.nutz.dao.*;
 import org.necros.webmvc.util.*;
+import org.nutz.dao.util.cri.*;
 
-import sys.ObjectBasics;
-import sys.Touchable;
+import sys.*;
 
 class DataAccess {
 	private static Dao dao;
@@ -55,4 +55,37 @@ class DataAccess {
 	Object delete(Object data) {
 		dao.delete(data);
 	}
+
+	private def makeCriterion(Class<?> clazz, PropertyCriteria[] props) {
+		def criterion = null;
+		for (PropertyCriteria pc: props) {
+			if (criterion == null)
+				criterion = Cnd.where(pc.name, '=', pc.value);
+			else
+				criterion = criterion.and(pc.name, '=', pc.value);
+		}
+		if (Ordered.class.isAssignableFrom(clazz)) {
+			if (criterion == null)
+				criterion = Cnd.asc('displayOrder');
+			else
+				criterion = criterion.asc('displayOrder');
+		}
+		return criterion;
+	}
+
+	List query(Class<?> clazz, PropertyCriteria... props) {
+		def criterion = makeCriterion(clazz, props);
+		return dao.query(clazz, criterion);
+	}
+
+	List queryNotTerminated(Class<?> clazz, PropertyCriteria... props) {
+		def criterion = makeCriterion(clazz, props);
+		Date now = new Date();
+		criterion = criterion.and(Cnd.exps(new IsNull('beginTime')).or('beginTime', '<=', now))
+				.and(Cnd.exps(new IsNull('endTime')).or('endTime', '>=', now));
+		return dao.query(clazz, criterion);
+	}
+
+	//TODO pagination
+	//TODO Not termed query/pagination
 }

@@ -1,6 +1,9 @@
 import org.nutz.dao.Dao;
 
+import data.DataAccess;
+
 import sys.auth.Login;
+import sys.auth.AuthService;
 import sys.authz.Module;
 import sys.authz.ModuleOperation;
 import sys.authz.Role;
@@ -34,4 +37,13 @@ for (Class c: classes) {
 	dao.create(c, true);
 }
 
-__json__ = classes;
+Login l = new Login();
+l.loginName = 'admin';
+l.salt = 'admin';
+l.hashAlgorithm = 'sha-1';
+AuthService authSvc = AuthService.getInstance(applicationContext);
+authSvc.hashPassword(l, 'nimda');
+DataAccess da = DataAccess.getInstance(applicationContext);
+da.create(l);
+
+__json__ = l;
